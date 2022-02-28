@@ -1,5 +1,8 @@
 <template>
-  <div class="entry-container mb-3 p-2 pointer">
+  <div
+    class="entry-container mb-3 p-2 pointer"
+    @click="$router.push({ name: 'entry', params: { id: 10 } })"
+  >
 
     <!-- Titulo -->
     <div class="entry-title d-flex">
