@@ -8,6 +8,9 @@
       </div>
 
       <div>
+        <input type="file" 
+          @change="onSelectedImage">
+
         <button v-if="entry.id"
           class="btn btn-danger mx-2"
           @click="onDeleteEntry">
@@ -31,8 +34,14 @@
       ></textarea>
     </div>
 
-    <img
+    <!-- <img
       src="https://www.robertlandscapes.com/wp-content/uploads/2018/05/IMG_3064-2-400x300.jpg"
+      alt="entry-picture"
+      class="img-thumbnail"> -->
+
+    <img
+      v-if="localImage"
+      :src="localImage"
       alt="entry-picture"
       class="img-thumbnail">
   </template>
@@ -62,7 +71,9 @@ export default {
   },
   data() {
     return {
-      entry: null
+      entry: null,
+      localImage: null,
+      file: null
     }
   },
   computed: {
@@ -137,6 +148,23 @@ export default {
 
         Swal.fire('Eliminado', '', 'success')
       }
+    },
+    onSelectedImage( event ) {
+      const file = event.target.files[0]
+      if ( !file ) {
+        this.localImage = null
+        this.file = null
+        return
+      }
+
+      this.file = file
+
+      const fr = new FileReader
+      fr.onload = () => this.localImage = fr.result
+      fr.readAsDataURL( file )
+    },
+    onSelectImage() {
+      
     }
   },
   created() {
